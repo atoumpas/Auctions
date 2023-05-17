@@ -1,20 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package gui;
 
 import jade.gui.GuiEvent;
-import java.awt.event.ActionListener;
 import javax.swing.DefaultComboBoxModel;
 
-/**
- *
- * @author Axilleas
- */
 public class AuctionGui extends javax.swing.JFrame {
 
-    private AuctionGuiAgent myAgent;
+    private final AuctionGuiAgent myAgent;
     
     /**
      * Creates new form AuctionGui

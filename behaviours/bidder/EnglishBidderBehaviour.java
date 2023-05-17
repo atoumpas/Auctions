@@ -1,30 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package behaviours.bidder;
 
 import jade.core.Agent;
-import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 
-/**
- *
- * @author Axilleas
- */
-public class EnglishBidderBehaviour extends SimpleBehaviour {
+public class EnglishBidderBehaviour extends BidderBehaviour {
     
-    private boolean auction_over = false;
     private boolean agent_is_active = true;
-    private final int estimate;
     
     public EnglishBidderBehaviour(Agent a, int estimate) {
-        super(a);
-        this.estimate = estimate;
+        super(a, estimate);
     }
 
-    public void action() {
-        ACLMessage msg = getAgent().blockingReceive();
+    @Override
+    public void handleIncomingMessage(ACLMessage msg) {
         if (agent_is_active && msg.getPerformative() == ACLMessage.CFP) {
             String content[] = msg.getContent().split(" ");
             String max_bidder = content[0];
@@ -46,14 +34,5 @@ public class EnglishBidderBehaviour extends SimpleBehaviour {
                 getAgent().send(reply);
             }
         }
-        
-        if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL || msg.getContent().equals("END")) {
-            auction_over = true;
-        }
     }
-
-    public boolean done() {
-       return auction_over; 
-    }
-    
 }

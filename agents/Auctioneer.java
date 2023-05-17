@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package agents;
 
 import behaviours.auctioneer.*;
@@ -11,14 +7,11 @@ import jade.core.behaviours.OneShotBehaviour;
 import jade.core.behaviours.SequentialBehaviour;
 import jade.lang.acl.ACLMessage;
 
-/**
- *
- * @author Axilleas
- */
 public class Auctioneer extends Agent {
     
     public SequentialBehaviour seq;
     
+    @Override
     protected void setup() { 
         Object[] args = getArguments();
         String format = (String) args[0];

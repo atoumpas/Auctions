@@ -1,17 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package agents;
 
 import behaviours.bidder.*;
 import jade.core.Agent;
 
-/**
- *
- * @author Axilleas
- */
 public class Bidder extends Agent {
+    
+    @Override
     protected void setup() { 
         Object[] args = getArguments();
         

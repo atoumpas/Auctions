@@ -1,45 +1,33 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package behaviours.bidder;
 
 import jade.core.Agent;
-import jade.core.behaviours.SimpleBehaviour;
 import jade.lang.acl.ACLMessage;
 
-/**
- *
- * @author Axilleas
- */
-public class ComboBidderBehaviour extends SimpleBehaviour {
+public class ComboBidderBehaviour extends BidderBehaviour {
     
-    private boolean auction_over = false;
-    private final int estimate;
     
     public ComboBidderBehaviour(Agent a, int estimate) {
-        super(a);
-        this.estimate = estimate;
+        super(a, estimate);
     }
 
-    public void action() {
-        ACLMessage msg = getAgent().blockingReceive();
+    @Override
+    public void handleIncomingMessage(ACLMessage msg) {
         if (msg.getPerformative() == ACLMessage.CFP) {
-                ACLMessage bid = new ACLMessage(ACLMessage.PROPOSE);
-                bid.addReceiver(msg.getSender());
-                bid.setContent(String.valueOf(estimate));
-                getAgent().send(bid); 
-            }
-        if (msg.getPerformative() == ACLMessage.ACCEPT_PROPOSAL || msg.getPerformative() == ACLMessage.REJECT_PROPOSAL ) {
+            ACLMessage bid = new ACLMessage(ACLMessage.PROPOSE);
+            bid.addReceiver(msg.getSender());
+            bid.setContent(String.valueOf(estimate));
+            getAgent().send(bid); 
+        }
+    }
+    
+    @Override
+    public void checkAuctionEnd(ACLMessage msg) {
+        if (auctionHasEnded(msg)) {
             auction_over = true;
         }
         else if (msg.getPerformative() == ACLMessage.INFORM) {
-            getAgent().addBehaviour(new EnglishBidderBehaviour(getAgent(), estimate));//English behaviour
+            getAgent().addBehaviour(new EnglishBidderBehaviour(getAgent(), estimate));
             auction_over = true;
         }
     }
-
-    public boolean done() {
-       return auction_over; 
-    } 
 }

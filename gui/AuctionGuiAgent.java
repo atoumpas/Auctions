@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gui;
 
 import jade.core.behaviours.CyclicBehaviour;
@@ -10,13 +6,10 @@ import jade.lang.acl.ACLMessage;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 
-/**
- *
- * @author Axilleas
- */
 public class AuctionGuiAgent extends GuiAgent  {
     transient protected AuctionGui myGui;
     
+    @Override
     protected void setup() {
         myGui = new AuctionGui(this);
         myGui.setVisible(true);
@@ -32,6 +25,7 @@ public class AuctionGuiAgent extends GuiAgent  {
         });
     }
     
+    @Override
     protected void onGuiEvent(GuiEvent ev) {
         // Get parameters from GUI
         String format = (String) ev.getParameter(0);
@@ -57,7 +51,7 @@ public class AuctionGuiAgent extends GuiAgent  {
             bidder2.kill();
             bidder3.kill();
         }
-        catch (Exception e) { System.out.println("No old agents");}
+        catch (Exception e) {System.out.println("No old agents");}
         
         // Create new agents
         try {
