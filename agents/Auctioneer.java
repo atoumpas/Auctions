@@ -19,6 +19,15 @@ public class Auctioneer extends Agent {
         seq = new SequentialBehaviour();
         addBehaviour(seq);
         
+        // Add initial 2 seconds delay until auction starts
+        seq.addSubBehaviour (new OneShotBehaviour() {
+            @Override
+            public void action() {
+                System.out.println("Starting new auction...");
+                block(2000);
+            }
+        });
+        
         switch(format) {
             case "English":
                 seq.addSubBehaviour (new EnglishAuctioneerBehaviour(this, 3));

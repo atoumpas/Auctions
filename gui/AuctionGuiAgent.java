@@ -26,20 +26,22 @@ public class AuctionGuiAgent extends GuiAgent  {
     }
     
     @Override
-    protected void onGuiEvent(GuiEvent ev) {
-        // Get parameters from GUI
-        String format = (String) ev.getParameter(0);
-        int estimate1 = Integer.parseInt((String) ev.getParameter(1));
-        int estimate2 = Integer.parseInt((String) ev.getParameter(2));
-        int estimate3 = Integer.parseInt((String) ev.getParameter(3));
-        String strategy1 = (String) ev.getParameter(4);
-        String strategy2 = (String) ev.getParameter(5);
-        String strategy3 = (String) ev.getParameter(6);
-        
-        
+    protected void onGuiEvent(GuiEvent ev) {       
         AgentContainer c = getContainerController();
         
-        // Delete old agents
+        killOldAgents(c);
+        
+        // Sleep for a few milliseconds to hopefully avoid issues
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {}
+        
+        createNewAgents(c, ev);
+        
+        myGui.setVisible(false);
+    }
+    
+    private void killOldAgents(AgentContainer c) {
         try {
             AgentController auctioneer = c.getAgent("Auctioneer1");
             AgentController bidder1 = c.getAgent("Bidder1");
@@ -52,13 +54,23 @@ public class AuctionGuiAgent extends GuiAgent  {
             bidder3.kill();
         }
         catch (Exception e) {System.out.println("No old agents");}
+    }
+    
+    private void createNewAgents(AgentContainer c, GuiEvent ev) {
+        // Get parameters from GUI
+        String format = (String) ev.getParameter(0);
+        int estimate1 = Integer.parseInt((String) ev.getParameter(1));
+        int estimate2 = Integer.parseInt((String) ev.getParameter(2));
+        int estimate3 = Integer.parseInt((String) ev.getParameter(3));
+        String strategy1 = (String) ev.getParameter(4);
+        String strategy2 = (String) ev.getParameter(5);
+        String strategy3 = (String) ev.getParameter(6);
         
-        // Create new agents
         try {
             AgentController auctioneer = c.createNewAgent( "Auctioneer1", "agents.Auctioneer", new Object[] {format} );
-            AgentController bidder1 = c.createNewAgent( "Bidder1", "agents.Bidder", new Object[] {format, estimate1, strategy1} );
-            AgentController bidder2 = c.createNewAgent( "Bidder2", "agents.Bidder", new Object[] {format, estimate2, strategy2} );
-            AgentController bidder3 = c.createNewAgent( "Bidder3", "agents.Bidder", new Object[] {format, estimate3, strategy3} );
+            AgentController bidder1 = c.createNewAgent( "Bidder1", "agents.Bidder", new Object[] {format, estimate1, strategy1, 0.1} );
+            AgentController bidder2 = c.createNewAgent( "Bidder2", "agents.Bidder", new Object[] {format, estimate2, strategy2, 0.1} );
+            AgentController bidder3 = c.createNewAgent( "Bidder3", "agents.Bidder", new Object[] {format, estimate3, strategy3, 0.1} );
             
             auctioneer.start();
             bidder1.start();
@@ -66,7 +78,5 @@ public class AuctionGuiAgent extends GuiAgent  {
             bidder3.start();
         }
         catch (Exception e){System.out.println("Could not create new agents");}
-        
-        myGui.setVisible(false);
     }
 }
