@@ -7,7 +7,7 @@ public class ScottishAuctioneerBehaviour extends AuctioneerBehaviour  {
     
     private int current_price = 0;
     private String max_bidder = "Auctioneer1";
-    private final int time_allowed = 5;
+    private final int time_allowed = 10;
     private final long startTime;
     
     public ScottishAuctioneerBehaviour(Agent a) {

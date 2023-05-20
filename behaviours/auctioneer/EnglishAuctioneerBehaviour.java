@@ -1,5 +1,6 @@
 package behaviours.auctioneer;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 
@@ -29,6 +30,7 @@ public class EnglishAuctioneerBehaviour extends AuctioneerBehaviour  {
         if (message != null) {
             if (message.getContent().equals("WITHDRAW")) {
                 active_bidders -= 1;
+                notifyWithdraw();
             }
             if (message.getPerformative() == ACLMessage.PROPOSE) {
                 int bid = Integer.parseInt(message.getContent());
@@ -44,5 +46,15 @@ public class EnglishAuctioneerBehaviour extends AuctioneerBehaviour  {
         if (active_bidders == 1 || (System.currentTimeMillis() - timer) >= 3 * 1000) {
             endAuction(max_bidder, current_price);
         }
+    }
+    
+    private void notifyWithdraw() {
+        ACLMessage msg = new ACLMessage( ACLMessage.INFORM );
+        msg.setContent("BIDDER WITHDRAW");
+        
+        for (int i = 1; i <= 3; i++) {
+            msg.addReceiver( new AID("Bidder" + i, AID.ISLOCALNAME) );
+        }
+        getAgent().send(msg);
     }
 }

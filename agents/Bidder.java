@@ -29,6 +29,9 @@ public class Bidder extends Agent {
                 else if (strategy.equals("Collusion")) {
                     behaviour = new EnglishBidderBehaviour_Collusion(this, estimate);
                 }
+                else {
+                    behaviour = new EnglishBidderBehaviour_Shill(this, estimate);
+                }
                 break;
             case "Dutch":
                 if (strategy.equals("Default")) {
@@ -42,6 +45,12 @@ public class Bidder extends Agent {
             case "Scottish":
                 if (strategy.equals("Impatient")) {
                     behaviour = new ScottishBidderBehaviour(this, estimate);
+                }
+                else if (strategy.equals("Patient")) {
+                    behaviour = new ScottishBidderBehaviour_Patient(this, estimate);
+                }
+                else {
+                    behaviour = new ScottishBidderBehaviour_Shill(this, estimate);
                 }
                 break;
             case "First-Price":

@@ -18,10 +18,14 @@ public class ScottishBidderBehaviour extends BidderBehaviour {
             
             if (!max_bidder.equals(getAgent().getAID().getLocalName()) && current_price < estimate) {
                 ACLMessage reply = new ACLMessage(ACLMessage.PROPOSE);
-                reply.setContent(Integer.toString(current_price + 1));
+                reply.setContent(Integer.toString(setBidValue(current_price)));
                 reply.addReceiver( msg.getSender() );
                 getAgent().send(reply);
             }
         }
+    }
+    
+    protected int setBidValue(int current_price) {
+        return current_price + 1;
     }
 }
