@@ -8,6 +8,7 @@ import behaviours.bidder.firstprice.*;
 import behaviours.bidder.vickrey.*;
 import behaviours.bidder.combo.*;
 import jade.core.Agent;
+import java.util.HashMap;
 
 public class Bidder extends Agent {
     
@@ -19,59 +20,81 @@ public class Bidder extends Agent {
         int estimate = (int) args[1];
         String strategy = (String) args[2];
         double risk = (double) args[3];
+        HashMap<String, Integer> estimateMap = (HashMap) args[4];
         
         BidderBehaviour behaviour = null;
         switch(format) {
             case "English":
-                if (strategy.equals("Default")) {
-                    behaviour = new EnglishBidderBehaviour(this, estimate);
-                }
-                else if (strategy.equals("Collusion")) {
-                    behaviour = new EnglishBidderBehaviour_Collusion(this, estimate);
-                }
-                else {
-                    behaviour = new EnglishBidderBehaviour_Shill(this, estimate);
-                }
-                break;
-            case "Dutch":
-                if (strategy.equals("Default")) {
-                    behaviour = new DutchBidderBehaviour(this, estimate);
-                }
-                else if (strategy.equals("Risk")) {
-                    behaviour = new DutchBidderBehaviour_Risk(this, estimate, risk);
+                switch (strategy) {
+                    case "Collusion":
+                        behaviour = new EnglishBidderBehaviour_Collusion(this, estimate);
+                        break;
+                    case "Shill":
+                        behaviour = new EnglishBidderBehaviour_Shill(this, estimate);
+                        break;
+                    default:
+                        behaviour = new EnglishBidderBehaviour(this, estimate);
+                        break;
                 }
                 break;
 
-            case "Scottish":
-                if (strategy.equals("Impatient")) {
-                    behaviour = new ScottishBidderBehaviour(this, estimate);
+            case "Dutch":
+                switch (strategy) {
+                    case "Risk":
+                        behaviour = new DutchBidderBehaviour_Risk(this, estimate, risk);
+                        break;
+                    case "Informed":
+                        behaviour = new DutchBidderBehaviour_Informed(this, estimate, risk, estimateMap);
+                        break;
+                    default:
+                        behaviour = new DutchBidderBehaviour(this, estimate);
+                        break;
                 }
-                else if (strategy.equals("Patient")) {
-                    behaviour = new ScottishBidderBehaviour_Patient(this, estimate);
+                break;
+
+
+            case "Scottish":
+                switch (strategy) {
+                    case "Patient":
+                        behaviour = new ScottishBidderBehaviour_Patient(this, estimate);
+                        break;
+                    case "Shill":
+                        behaviour = new ScottishBidderBehaviour_Shill(this, estimate);
+                        break;
+                    default:
+                        behaviour = new ScottishBidderBehaviour(this, estimate);
+                        break;
+                }
+                break;
+
+            case "First-Price":
+                switch (strategy) {
+                    case "Risk":
+                        behaviour = new FirstPriceBidderBehaviour_Risk(this, estimate, risk);
+                        break;
+                    case "Informed":
+                        behaviour = new FirstPriceBidderBehaviour_Informed(this, estimate, risk, estimateMap);
+                        break;
+                    default:
+                        behaviour = new FirstPriceBidderBehaviour(this, estimate);
+                        break;
+                }
+                break;
+
+            case "Vickrey":
+                if (strategy.equals("Malicious")) {
+                    behaviour = new VickreyBidderBehaviour_Malicious(this, estimate, risk, estimateMap);
                 }
                 else {
-                    behaviour = new ScottishBidderBehaviour_Shill(this, estimate);
-                }
-                break;
-            case "First-Price":
-                if (strategy.equals("Default")) {
-                    behaviour = new FirstPriceBidderBehaviour(this, estimate);
-                }
-                else if (strategy.equals("Risk")) {
-                    behaviour = new FirstPriceBidderBehaviour_Risk(this, estimate, risk);
-                }
-                break;
-            case "Vickrey":
-                if (strategy.equals("Default")) {
                     behaviour = new VickreyBidderBehaviour(this, estimate);
                 }
                 break;
             case "Combo":
-                if (strategy.equals("Default")) {
-                    behaviour = new ComboBidderBehaviour(this, estimate);
-                }
-                else if (strategy.equals("Risk")) {
+                if (strategy.equals("Risk")) {
                     behaviour = new ComboBidderBehaviour_Risk(this, estimate, risk);
+                }
+                else {
+                    behaviour = new ComboBidderBehaviour(this, estimate);
                 }
                 break;
         }

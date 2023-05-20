@@ -249,9 +249,9 @@ public class AuctionGui extends javax.swing.JFrame {
     
     // Set possible strategies per auction format
     final String[] EnglishStrategies = new String[]{"Default", "Collusion", "Shill"};
-    final String[] DutchStrategies = new String[]{"Default", "Risk"};
+    final String[] DutchStrategies = new String[]{"Default", "Risk", "Informed"};
     final String[] ScottishStrategies = new String[]{"Impatient", "Patient", "Shill"};
-    final String[] FirstPriceStrategies = new String[]{"Default", "Risk"};
-    final String[] VickreyStrategies = new String[]{"Default"};
+    final String[] FirstPriceStrategies = new String[]{"Default", "Risk", "Informed"};
+    final String[] VickreyStrategies = new String[]{"Default", "Malicious"};
     final String[] ComboStrategies = new String[]{"Default", "Risk"};
 }

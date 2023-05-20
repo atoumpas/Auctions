@@ -15,8 +15,12 @@ public class VickreyBidderBehaviour extends BidderBehaviour {
         if (msg.getPerformative() == ACLMessage.CFP) {
             ACLMessage bid = new ACLMessage(ACLMessage.PROPOSE);
             bid.addReceiver(msg.getSender());
-            bid.setContent(String.valueOf(estimate));
+            bid.setContent(String.valueOf(setBidValue()));
             getAgent().send(bid); 
         }
+    }
+    
+    protected int setBidValue() {
+        return estimate;
     }
 }
