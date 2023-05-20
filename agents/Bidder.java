@@ -1,6 +1,12 @@
 package agents;
 
 import behaviours.bidder.*;
+import behaviours.bidder.english.*;
+import behaviours.bidder.dutch.*;
+import behaviours.bidder.scottish.*;
+import behaviours.bidder.firstprice.*;
+import behaviours.bidder.vickrey.*;
+import behaviours.bidder.combo.*;
 import jade.core.Agent;
 
 public class Bidder extends Agent {
@@ -11,27 +17,56 @@ public class Bidder extends Agent {
         
         String format = (String) args[0];
         int estimate = (int) args[1];
+        String strategy = (String) args[2];
+        double risk = (double) args[3];
         
+        BidderBehaviour behaviour = null;
         switch(format) {
             case "English":
-                addBehaviour (new EnglishBidderBehaviour(this, estimate));
+                if (strategy.equals("Default")) {
+                    behaviour = new EnglishBidderBehaviour(this, estimate);
+                }
+                else if (strategy.equals("Collusion")) {
+                    behaviour = new EnglishBidderBehaviour_Collusion(this, estimate);
+                }
                 break;
             case "Dutch":
-                addBehaviour (new DutchBidderBehaviour(this, estimate));
+                if (strategy.equals("Default")) {
+                    behaviour = new DutchBidderBehaviour(this, estimate);
+                }
+                else if (strategy.equals("Risk")) {
+                    behaviour = new DutchBidderBehaviour_Risk(this, estimate, risk);
+                }
                 break;
+
             case "Scottish":
-                addBehaviour (new ScottishBidderBehaviour(this, estimate));
+                if (strategy.equals("Impatient")) {
+                    behaviour = new ScottishBidderBehaviour(this, estimate);
+                }
                 break;
             case "First-Price":
-                addBehaviour (new FirstPriceBidderBehaviour(this, estimate));
+                if (strategy.equals("Default")) {
+                    behaviour = new FirstPriceBidderBehaviour(this, estimate);
+                }
+                else if (strategy.equals("Risk")) {
+                    behaviour = new FirstPriceBidderBehaviour_Risk(this, estimate, risk);
+                }
                 break;
             case "Vickrey":
-                addBehaviour (new VickreyBidderBehaviour(this, estimate));
+                if (strategy.equals("Default")) {
+                    behaviour = new VickreyBidderBehaviour(this, estimate);
+                }
                 break;
             case "Combo":
-                addBehaviour (new ComboBidderBehaviour(this, estimate));
+                if (strategy.equals("Default")) {
+                    behaviour = new ComboBidderBehaviour(this, estimate);
+                }
+                else if (strategy.equals("Risk")) {
+                    behaviour = new ComboBidderBehaviour_Risk(this, estimate, risk);
+                }
                 break;
         }
         
+        addBehaviour (behaviour);
     }
 }

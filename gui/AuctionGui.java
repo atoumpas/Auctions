@@ -248,11 +248,10 @@ public class AuctionGui extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     // Set possible strategies per auction format
-    final String[] EnglishStrategies = new String[]{"Default", "123"};
-    final String[] DutchStrategies = new String[]{"Default"};
-    final String[] ScottishStrategies = new String[]{"Default"};
-    final String[] FirstPriceStrategies = new String[]{"Default"};
+    final String[] EnglishStrategies = new String[]{"Default", "Collusion"};
+    final String[] DutchStrategies = new String[]{"Default", "Risk"};
+    final String[] ScottishStrategies = new String[]{"Impatient"};
+    final String[] FirstPriceStrategies = new String[]{"Default", "Risk"};
     final String[] VickreyStrategies = new String[]{"Default"};
-    final String[] ComboStrategies = new String[]{"Default"};
-
+    final String[] ComboStrategies = new String[]{"Default", "Risk"};
 }
