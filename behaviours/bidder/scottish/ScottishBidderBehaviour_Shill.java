@@ -29,7 +29,7 @@ public class ScottishBidderBehaviour_Shill extends ScottishBidderBehaviour {
                     String content[] = last_bid.getContent().split(" ");
                     int current_price = Integer.parseInt(content[1]);
                     ACLMessage reply = new ACLMessage(ACLMessage.PROPOSE);
-                    reply.setContent(Integer.toString(current_price + 10));
+                    reply.setContent(Integer.toString(Math.min(estimate, current_price + 10)));
                     reply.addReceiver( last_bid.getSender());
                     getAgent().send(reply);
                     time_since_last_bid = System.currentTimeMillis(); 
@@ -40,7 +40,7 @@ public class ScottishBidderBehaviour_Shill extends ScottishBidderBehaviour {
     
     @Override
     protected int setBidValue(int current_price) {
-        return current_price + 20;
+        return Math.min(estimate, current_price + 20);
     }
     
 }
