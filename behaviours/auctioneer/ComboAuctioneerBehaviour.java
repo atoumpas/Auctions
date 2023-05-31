@@ -10,6 +10,8 @@ import java.util.List;
 public class ComboAuctioneerBehaviour extends OneShotAuctioneerBehaviour  {
     
     private final int estimate = 200;
+    private final int standardDeviationThreshold = 10;
+    
     
     public ComboAuctioneerBehaviour(Agent a) {
         super(a);
@@ -33,34 +35,60 @@ public class ComboAuctioneerBehaviour extends OneShotAuctioneerBehaviour  {
     private boolean acceptHighestBid() {
         ACLMessage highestBidMessage = findHighestBid();
         int highestBid = Integer.parseInt(highestBidMessage.getContent());
+        List<ACLMessage> sortedBids = sortedBids();
+        double standardDeviation = calculateStandardDeviation(sortedBids);
         
-        if (highestBidIsSatisfactory(highestBid)) {
+        // Highest bid is satisfactory, accept
+        if (highestBid > estimate) {
             return true;
         }
+   
+        // There is competition, go to 2nd step
+        if (standardDeviation <= standardDeviationThreshold) {
+            informBiddersForSecondStep(highestBid);
+            return false;
+        }
         
-        informBiddersForSecondStep(highestBid);
-        return false;
+        return true;
     }
     
-    private boolean highestBidIsSatisfactory(int highestBid) {
-        return highestBid >= estimate;
+    private double calculateStandardDeviation(List<ACLMessage> sortedBids) {
+        double sum = 0.0;
+        for (int i = 0; i < 5; i++) {
+            ACLMessage bid = sortedBids.get(i);
+            sum += Integer.parseInt(bid.getContent());
+        }
+        double mean = sum / 2;
+        double standardDeviation = 0.0;
+        for (int i = 0; i < 5; i++) {
+            ACLMessage bid = sortedBids.get(i);
+            int num = Integer.parseInt(bid.getContent());
+            standardDeviation += Math.pow(num - mean, 2);
+        }
+        return Math.sqrt(standardDeviation / 5);
     }
-    
-    private void informBiddersForSecondStep(int highestBid) {
-        //Sort the bids in descending order
-        //Send inform message to the two highest bidders
-        //Send reject message to the third bidder
+
+    private List<ACLMessage> sortedBids() {
         List<ACLMessage> sortedBids = new ArrayList<>(bids.values());
         Collections.sort(sortedBids, (ACLMessage b1, ACLMessage b2) -> {
             int p1 = Integer.parseInt(b1.getContent());
             int p2 = Integer.parseInt(b2.getContent());
             return Integer.compare(p2, p1);
         });
+        
+        return sortedBids;
+    }
+    
+    private void informBiddersForSecondStep(int highestBid) {
+        //Sort the bids in descending order
+        //Send inform message to the two highest bidders
+        //Send reject message to the third bidder
+        List<ACLMessage> sortedBids = sortedBids();
 
         // Send an inform message to the two highest bidders and a reject message to the third bidder
         for (int i = 0; i < sortedBids.size(); i++) {
             ACLMessage bid = sortedBids.get(i);
-            if (i < 2) {
+            if (i < 5) {
                 ACLMessage inform = bid.createReply();
                 inform.setPerformative(ACLMessage.INFORM);
                 inform.setContent(String.valueOf(highestBid));
@@ -80,7 +108,7 @@ public class ComboAuctioneerBehaviour extends OneShotAuctioneerBehaviour  {
     
     @Override
     protected void handleCFPStage() {
-        bids = collectBids(3);
+        bids = collectBids(6);
         if (acceptHighestBid()) {
             endAuction();
         }
@@ -94,7 +122,7 @@ public class ComboAuctioneerBehaviour extends OneShotAuctioneerBehaviour  {
         System.out.println("Bids rejected, moving to stage 2");
         // Add English behaviour to auctioneer
         Auctioneer agent = (Auctioneer) getAgent();
-        agent.seq.addSubBehaviour(new EnglishAuctioneerBehaviour(getAgent(), 2));
+        agent.seq.addSubBehaviour(new EnglishAuctioneerBehaviour(getAgent(), 5));
         stage = "SOLD";
     }
 }

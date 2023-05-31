@@ -50,7 +50,7 @@ public abstract class AuctioneerBehaviour extends SimpleBehaviour{
             msg.setContent(content);
         }
         
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 6; i++) {
             msg.addReceiver( new AID("Bidder" + i, AID.ISLOCALNAME) );
         }
         getAgent().send(msg);
@@ -74,7 +74,7 @@ public abstract class AuctioneerBehaviour extends SimpleBehaviour{
     protected void notifyAuctionEnd() {
         ACLMessage msg = new ACLMessage( ACLMessage.INFORM );
         msg.setContent("END");
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 6; i++) {
             msg.addReceiver( new AID("Bidder" + i, AID.ISLOCALNAME) );
         }
         getAgent().send(msg);

@@ -24,7 +24,7 @@ public abstract class OneShotAuctioneerBehaviour extends AuctioneerBehaviour {
     
     @Override
     protected void handleCFPStage() {
-        bids = collectBids(3);
+        bids = collectBids(6);
         endAuction();
         block(1000);
     }

@@ -8,8 +8,8 @@ public class EnglishBidderBehaviour extends BidderBehaviour {
     
     private boolean agent_is_active = true;
     
-    public EnglishBidderBehaviour(Agent a, int estimate) {
-        super(a, estimate);
+    public EnglishBidderBehaviour(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
     }
 
     @Override
@@ -43,6 +43,16 @@ public class EnglishBidderBehaviour extends BidderBehaviour {
     }
     
     protected int setBidValue(int current_price) {
-        return current_price + 1;
+        int additional_amount;
+        switch (interest) {
+            case "High":
+                break;
+            case "Low":
+                break;
+            default:
+                additional_amount = 1;
+                break;
+        }
+        return current_price + additional_amount;        
     }
 }

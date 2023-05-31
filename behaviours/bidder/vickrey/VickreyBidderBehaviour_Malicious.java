@@ -4,12 +4,10 @@ import jade.core.Agent;
 import java.util.HashMap;
 
 public class VickreyBidderBehaviour_Malicious extends VickreyBidderBehaviour {
-    private final double risk;
     private final HashMap<String, Integer> estimateMap;
     
-    public VickreyBidderBehaviour_Malicious(Agent a, int estimate, double risk, HashMap<String, Integer> estimateMap) {
-        super(a, estimate);
-        this.risk = risk;
+    public VickreyBidderBehaviour_Malicious(Agent a, int estimate, String interest, HashMap<String, Integer> estimateMap) {
+        super(a, estimate, interest);
         this.estimateMap = new HashMap<>(estimateMap);
         this.estimateMap.remove(a.getLocalName());
     } 
@@ -25,7 +23,7 @@ public class VickreyBidderBehaviour_Malicious extends VickreyBidderBehaviour {
         }
         
         // Otherwise, bid using risk
-        return informedBid - 1 - ((int) (20 * (1 - risk)));
+        return informedBid - 21;
     }
 
     private int getHighestEstimate() {

@@ -30,7 +30,7 @@ public class Auctioneer extends Agent {
         
         switch(format) {
             case "English":
-                seq.addSubBehaviour (new EnglishAuctioneerBehaviour(this, 3));
+                seq.addSubBehaviour (new EnglishAuctioneerBehaviour(this, 6));
                 break;
             case "Dutch":
                 seq.addSubBehaviour (new DutchAuctioneerBehaviour(this));

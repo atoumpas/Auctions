@@ -9,8 +9,8 @@ public class EnglishBidderBehaviour_Collusion extends EnglishBidderBehaviour {
     private final HashSet<String> partners;
     private boolean sent_collusion_message = false;
             
-    public EnglishBidderBehaviour_Collusion(Agent a, int estimate) {
-        super(a, estimate);
+    public EnglishBidderBehaviour_Collusion(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
         partners = new HashSet();
         partners.add(getAgent().getLocalName());
     }

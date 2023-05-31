@@ -6,8 +6,8 @@ import jade.lang.acl.ACLMessage;
 
 public class DutchBidderBehaviour extends BidderBehaviour {
     
-    public DutchBidderBehaviour(Agent a, int estimate) {
-        super(a, estimate);
+    public DutchBidderBehaviour(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
     }
 
     @Override
@@ -23,6 +23,7 @@ public class DutchBidderBehaviour extends BidderBehaviour {
     }
     
     protected boolean isTimeToBid(int current_price) {
-        return current_price <= estimate;
+        int new_estimate = (int) (estimate * (1 - risk));
+        return current_price <= new_estimate;
     }
 }

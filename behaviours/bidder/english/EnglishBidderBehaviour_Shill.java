@@ -7,8 +7,8 @@ public class EnglishBidderBehaviour_Shill extends EnglishBidderBehaviour {
     
     private int agents_withdrawn = 0;
     
-    public EnglishBidderBehaviour_Shill(Agent a, int estimate) {
-        super(a, estimate);
+    public EnglishBidderBehaviour_Shill(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
     }
     
     @Override

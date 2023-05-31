@@ -52,7 +52,7 @@ public class EnglishAuctioneerBehaviour extends AuctioneerBehaviour  {
         ACLMessage msg = new ACLMessage( ACLMessage.INFORM );
         msg.setContent("BIDDER WITHDRAW");
         
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 1; i <= 6; i++) {
             msg.addReceiver( new AID("Bidder" + i, AID.ISLOCALNAME) );
         }
         getAgent().send(msg);

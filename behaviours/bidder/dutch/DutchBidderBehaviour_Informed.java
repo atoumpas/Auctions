@@ -5,13 +5,11 @@ import java.util.HashMap;
 
 public class DutchBidderBehaviour_Informed extends DutchBidderBehaviour {
     
-    private final double risk;
     private final HashMap<String, Integer> estimateMap;
     private final int informedBid;
     
-    public DutchBidderBehaviour_Informed(Agent a, int estimate, double risk, HashMap<String, Integer> estimateMap) {
-        super(a, estimate);
-        this.risk = risk;
+    public DutchBidderBehaviour_Informed(Agent a, int estimate, String interest, HashMap<String, Integer> estimateMap) {
+        super(a, estimate, interest);
         this.estimateMap = new HashMap<>(estimateMap);
         this.estimateMap.remove(a.getLocalName());
         informedBid = getHighestEstimate();

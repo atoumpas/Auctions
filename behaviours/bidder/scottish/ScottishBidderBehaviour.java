@@ -6,8 +6,8 @@ import jade.lang.acl.ACLMessage;
 
 public class ScottishBidderBehaviour extends BidderBehaviour {
     
-    public ScottishBidderBehaviour(Agent a, int estimate) {
-        super(a, estimate);
+    public ScottishBidderBehaviour(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
     }
     @Override
     public void handleIncomingMessage(ACLMessage msg) {

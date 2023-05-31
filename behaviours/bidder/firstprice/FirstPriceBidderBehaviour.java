@@ -6,8 +6,8 @@ import jade.lang.acl.ACLMessage;
 
 public class FirstPriceBidderBehaviour extends BidderBehaviour {
     
-    public FirstPriceBidderBehaviour(Agent a, int estimate) {
-        super(a, estimate);
+    public FirstPriceBidderBehaviour(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
     }
 
     @Override
@@ -21,6 +21,6 @@ public class FirstPriceBidderBehaviour extends BidderBehaviour {
     }    
     
     protected int setBidValue() {
-        return estimate;
+        return (int) (estimate * (1 - risk));
     }
 }

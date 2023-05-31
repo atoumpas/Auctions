@@ -6,8 +6,8 @@ import jade.lang.acl.ACLMessage;
 
 public class VickreyBidderBehaviour extends BidderBehaviour {
     
-    public VickreyBidderBehaviour(Agent a, int estimate) {
-        super(a, estimate);
+    public VickreyBidderBehaviour(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
     }
 
     @Override

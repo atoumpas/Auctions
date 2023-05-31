@@ -8,8 +8,8 @@ public class ScottishBidderBehaviour_Shill extends ScottishBidderBehaviour {
     private ACLMessage last_bid;
     private long time_since_last_bid;
     
-    public ScottishBidderBehaviour_Shill(Agent a, int estimate) {
-        super(a, estimate);
+    public ScottishBidderBehaviour_Shill(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
         time_since_last_bid = System.currentTimeMillis(); 
         last_bid = null;
     }

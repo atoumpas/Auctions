@@ -5,12 +5,10 @@ import java.util.HashMap;
 
 public class FirstPriceBidderBehaviour_Informed extends FirstPriceBidderBehaviour {
     
-    private final double risk;
     private final HashMap<String, Integer> estimateMap;
     
-    public FirstPriceBidderBehaviour_Informed(Agent a, int estimate, double risk, HashMap<String, Integer> estimateMap) {
-        super(a, estimate);
-        this.risk = risk;
+    public FirstPriceBidderBehaviour_Informed(Agent a, int estimate, String interest, HashMap<String, Integer> estimateMap) {
+        super(a, estimate, interest);
         this.estimateMap = new HashMap<>(estimateMap);
         this.estimateMap.remove(a.getLocalName());
     } 

@@ -8,8 +8,8 @@ import jade.lang.acl.ACLMessage;
 public class ComboBidderBehaviour extends BidderBehaviour {
     
     
-    public ComboBidderBehaviour(Agent a, int estimate) {
-        super(a, estimate);
+    public ComboBidderBehaviour(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class ComboBidderBehaviour extends BidderBehaviour {
     }
     
     protected int setBidValue() {
-        return estimate;
+         return (int) (estimate * (1 - risk));
     }
     
     @Override
@@ -32,7 +32,7 @@ public class ComboBidderBehaviour extends BidderBehaviour {
             auction_over = true;
         }
         else if (msg.getPerformative() == ACLMessage.INFORM) {
-            getAgent().addBehaviour(new EnglishBidderBehaviour(getAgent(), estimate));
+            getAgent().addBehaviour(new EnglishBidderBehaviour(getAgent(), estimate, interest));
             auction_over = true;
         }
     }

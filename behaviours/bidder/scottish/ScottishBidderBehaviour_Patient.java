@@ -11,8 +11,8 @@ public class ScottishBidderBehaviour_Patient extends ScottishBidderBehaviour {
     private final int observe_time;
     private int bids_observed = 0;
     
-    public ScottishBidderBehaviour_Patient(Agent a, int estimate) {
-        super(a, estimate);
+    public ScottishBidderBehaviour_Patient(Agent a, int estimate, String interest) {
+        super(a, estimate, interest);
         auction_start = System.currentTimeMillis();
         observe_time = waiting_time - 2;
     }
