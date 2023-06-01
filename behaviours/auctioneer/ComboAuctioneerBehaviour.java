@@ -54,18 +54,18 @@ public class ComboAuctioneerBehaviour extends OneShotAuctioneerBehaviour  {
     
     private double calculateStandardDeviation(List<ACLMessage> sortedBids) {
         double sum = 0.0;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             ACLMessage bid = sortedBids.get(i);
             sum += Integer.parseInt(bid.getContent());
         }
         double mean = sum / 2;
         double standardDeviation = 0.0;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             ACLMessage bid = sortedBids.get(i);
             int num = Integer.parseInt(bid.getContent());
             standardDeviation += Math.pow(num - mean, 2);
         }
-        return Math.sqrt(standardDeviation / 5);
+        return Math.sqrt(standardDeviation / 2);
     }
 
     private List<ACLMessage> sortedBids() {

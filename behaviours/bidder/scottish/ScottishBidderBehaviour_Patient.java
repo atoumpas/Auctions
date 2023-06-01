@@ -39,10 +39,11 @@ public class ScottishBidderBehaviour_Patient extends ScottishBidderBehaviour {
     
     @Override
     protected int setBidValue(int current_price) {
-        if (bids_observed == 0) {
+        if (bids_observed == 0 || interest.equals("Low")) {
             return current_price + 1;
         }
-        return Math.min(estimate, current_price + (5 * bids_observed));
+
+        return Math.min(estimate, current_price + (2 * bids_observed));
     }
     
     private boolean isTimeToBid() {

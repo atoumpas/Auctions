@@ -21,6 +21,6 @@ public class EnglishBidderBehaviour_Shill extends EnglishBidderBehaviour {
     
     @Override
     protected int setBidValue(int current_price) {
-        return Math.min(estimate, current_price + ((2 - agents_withdrawn) * 10));
+        return Math.min(estimate, current_price + ((5 - agents_withdrawn) * 5));
     }
 }

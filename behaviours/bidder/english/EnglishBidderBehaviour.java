@@ -7,6 +7,8 @@ import jade.lang.acl.ACLMessage;
 public class EnglishBidderBehaviour extends BidderBehaviour {
     
     private boolean agent_is_active = true;
+    private int bids_observed = 0;
+    private int my_previous_bid = 0;
     
     public EnglishBidderBehaviour(Agent a, int estimate, String interest) {
         super(a, estimate, interest);
@@ -18,6 +20,10 @@ public class EnglishBidderBehaviour extends BidderBehaviour {
             String content[] = msg.getContent().split(" ");
             String max_bidder = content[0];
             int current_price = Integer.parseInt(content[1]);
+            
+            if (!max_bidder.equals(getAgent().getLocalName())) {
+               bids_observed++; 
+            }
             
             if (current_price >= estimate && !max_bidder.equals(getAgent().getLocalName())) {
                 ACLMessage reply = new ACLMessage(ACLMessage.INFORM);
@@ -31,7 +37,8 @@ public class EnglishBidderBehaviour extends BidderBehaviour {
             
             if (isTimeToBid(max_bidder, current_price)) {
                 ACLMessage reply = new ACLMessage(ACLMessage.PROPOSE);
-                reply.setContent(Integer.toString(setBidValue(current_price)));
+                my_previous_bid = setBidValue(current_price);
+                reply.setContent(Integer.toString(my_previous_bid));
                 reply.addReceiver( msg.getSender());
                 getAgent().send(reply);
             }
@@ -39,20 +46,30 @@ public class EnglishBidderBehaviour extends BidderBehaviour {
     }
     
     protected boolean isTimeToBid(String max_bidder, int current_price) {
-        return !max_bidder.equals(getAgent().getLocalName()) && current_price < estimate;
+        return !max_bidder.equals(getAgent().getLocalName()) && current_price < estimate && current_price >= my_previous_bid;
     }
     
     protected int setBidValue(int current_price) {
         int additional_amount;
         switch (interest) {
             case "High":
+                additional_amount = 5 * bids_observed;
                 break;
-            case "Low":
+            case "Medium":
+                if (bids_observed < 5) {
+                    additional_amount = 20;
+                }
+                else if (bids_observed < 10) {
+                    additional_amount = 5;
+                }
+                else {
+                    additional_amount = 1;
+                }
                 break;
             default:
                 additional_amount = 1;
                 break;
         }
-        return current_price + additional_amount;        
+        return Math.min(estimate, current_price + additional_amount);        
     }
 }

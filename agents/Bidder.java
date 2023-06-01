@@ -52,14 +52,16 @@ public class Bidder extends Agent {
 
             case "Scottish":
                 switch (strategy) {
-                    case "Patient":
-                        behaviour = new ScottishBidderBehaviour_Patient(this, estimate, interest);
-                        break;
                     case "Shill":
                         behaviour = new ScottishBidderBehaviour_Shill(this, estimate, interest);
                         break;
                     default:
-                        behaviour = new ScottishBidderBehaviour(this, estimate, interest);
+                        if (interest.equals("High")) {
+                            behaviour = new ScottishBidderBehaviour(this, estimate, interest);
+                        }
+                        else {
+                            behaviour = new ScottishBidderBehaviour_Patient(this, estimate, interest);
+                        }
                         break;
                 }
                 break;
